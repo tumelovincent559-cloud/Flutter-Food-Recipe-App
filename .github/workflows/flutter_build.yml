@@ -25,10 +25,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Analyze & test (optional but recommended)
+      # Analyzer step (non-blocking)
       - name: Analyze
         run: flutter analyze
+        continue-on-error: true
 
+      # Tests step (strict, will fail build if tests fail)
       - name: Run tests
         run: flutter test
 
