@@ -34,7 +34,7 @@ class BottomBarItem extends StatelessWidget {
             if (isActive)
               BoxShadow(
                 // ✅ use withValues instead of deprecated withOpacity
-                color: shadowColor.withValues(alpha: 0.3),
+                color: shadowColor.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow

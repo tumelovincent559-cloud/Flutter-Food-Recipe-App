@@ -25,7 +25,7 @@ class RecommendItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: shadowColor.withValues(alpha: 0.1),
+              color: shadowColor.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
               offset: const Offset(0, 1),

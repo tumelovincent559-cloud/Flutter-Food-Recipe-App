@@ -25,7 +25,7 @@ class NotificationBox extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: appBarColor,
-          border: Border.all(color: shadowColor.withValues(alpha: 0.3)),
+          border: Border.all(color: shadowColor.withOpacity(0.3)),
         ),
         child: notifiedNumber > 0
             ? badges.Badge(

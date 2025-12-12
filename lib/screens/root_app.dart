@@ -102,7 +102,7 @@ class RootAppState extends State<RootApp> with TickerProviderStateMixin {
         ),
         boxShadow: [
           BoxShadow(
-            color: shadowColor.withValues(alpha: 0.1), // ✅ modern API
+            color: shadowColor.withOpacity(0.1),
             blurRadius: 1,
             spreadRadius: 1,
             offset: const Offset(0, 1),

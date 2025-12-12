@@ -36,19 +36,15 @@ class FavoriteBox extends StatelessWidget {
           color: isFavorited ? red : Colors.white,
           boxShadow: [
             BoxShadow(
-              // ✅ use withValues instead of deprecated withOpacity
-              color: shadowColor.withValues(alpha: 0.1),
+              color: shadowColor.withOpacity(0.1), // ✅ fixed
               spreadRadius: 1,
               blurRadius: 1,
-              offset: const Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0),
             ),
           ],
         ),
         child: SvgPicture.asset(
-          isFavorited
-              ? "assets/icons/bookmark.svg"
-              : "assets/icons/bookmark.svg",
-          // ✅ use colorFilter instead of deprecated color
+          "assets/icons/bookmark.svg",
           colorFilter: ColorFilter.mode(
             isFavorited ? Colors.white : primary,
             BlendMode.srcIn,

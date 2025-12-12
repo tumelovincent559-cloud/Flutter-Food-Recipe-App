@@ -22,31 +22,15 @@ class _ExplorePageState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        const SliverAppBar(
+        SliverAppBar(
           backgroundColor: appBgColor,
           pinned: true,
           snap: true,
           floating: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Explore",
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
+          title: _buildHeader(),
         ),
-        SliverToBoxAdapter(
-          child: _buildSearch(),
-        ),
-        SliverToBoxAdapter(
-          child: _buildCategory(),
-        ),
+        SliverToBoxAdapter(child: _buildSearch()),
+        SliverToBoxAdapter(child: _buildCategory()),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => RecipeItem(
@@ -66,24 +50,40 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
+  Widget _buildHeader() {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Explore",
+          style: TextStyle(
+            fontSize: 28,
+            color: Colors.black87,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildSearch() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 15),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
       child: Row(
         children: [
           Expanded(
             child: CustomRoundTextBox(
               hint: "Search",
-              prefix: Icon(Icons.search, color: Colors.grey),
+              prefix: const Icon(Icons.search, color: Colors.grey),
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           IconBox(
             radius: 50,
             padding: 8,
             child: SvgPicture.asset(
               "assets/icons/filter1.svg",
-              colorFilter: ColorFilter.mode(darker, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(darker, BlendMode.srcIn),
               width: 18,
               height: 18,
             ),

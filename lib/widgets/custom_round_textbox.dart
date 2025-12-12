@@ -23,14 +23,12 @@ class CustomRoundTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use the provided boxShadow if available, otherwise create a default one
     final BoxShadow effectiveBoxShadow = boxShadow ??
         BoxShadow(
-          // ✅ use withValues instead of deprecated withOpacity
-          color: shadowColor.withValues(alpha: 0.5),
+          color: shadowColor.withOpacity(0.5), // ✅ fixed
           spreadRadius: 1,
           blurRadius: 1,
-          offset: const Offset(0, 1), // changes position of shadow
+          offset: const Offset(0, 1),
         );
 
     return Container(
