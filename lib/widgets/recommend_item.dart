@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipe/widgets/favorite_box.dart';
 import '../theme/color.dart';
-import 'custom_image.dart';
+import '../widgets/favorite_box.dart'; // ✅ ensure FavoriteBox is imported
 
 class RecommendItem extends StatelessWidget {
   const RecommendItem({
-    Key? key,
+    super.key,
     required this.data,
-    this.width = 300,
     this.onTap,
     this.onFavoriteTap,
-  }) : super(key: key);
+  });
 
   final Map data;
-  final double width;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onFavoriteTap;
 
@@ -22,94 +19,33 @@ class RecommendItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10),
-        width: width,
+        margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
           color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              // ✅ updated to withValues(alpha: …)
               color: shadowColor.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: const Offset(1, 1), // changes position of shadow
+              offset: const Offset(0, 1),
             ),
           ],
         ),
-        child: Row(
+        child: Stack(
           children: [
-            CustomImage(
-              data["image"],
-              radius: 15,
-              height: 100,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildRecipeName(),
-                  const SizedBox(height: 5),
-                  Text(
-                    data["type"],
-                    style: const TextStyle(fontSize: 12, color: labelColor),
-                  ),
-                  const SizedBox(height: 25),
-                  _buildRateAndFavorite(),
-                ],
+            // your image or content here...
+            Positioned(
+              right: 10,
+              top: 10,
+              child: FavoriteBox(
+                isFavorited: data["is_favorited"] ?? false,
+                onTap: onFavoriteTap,
               ),
-            )
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildRecipeName() {
-    return Text(
-      data["name"],
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        color: textColor,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  Widget _buildRateAndFavorite() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: primary,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.star,
-                color: textColor,
-                size: 14,
-              ),
-              Text(
-                data["rate"],
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          ),
-        ),
-        const Spacer(),
-        FavoriteBox(
-          size: 13,
-          padding: 5,
-          isFavorited: data["is_favorited"],
-          onTap: onFavoriteTap,
-        ),
-      ],
     );
   }
 }

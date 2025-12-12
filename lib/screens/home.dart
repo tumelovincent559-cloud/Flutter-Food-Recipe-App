@@ -10,7 +10,7 @@ import '../utils/data.dart';
 import '../widgets/recommend_item.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -81,9 +81,9 @@ class _HomePageState extends State<HomePage> {
           width: 34,
           height: 34,
           child: IconBox(
-            child: SvgPicture.asset("assets/icons/menu1.svg"),
             radius: 15,
             bgColor: appBgColor,
+            child: SvgPicture.asset("assets/icons/menu1.svg"),
           ),
         ),
         const NotificationBox(

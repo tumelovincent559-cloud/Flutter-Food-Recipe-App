@@ -4,12 +4,12 @@ import '../theme/color.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem({
-    Key? key,
+    super.key,
     required this.data,
     this.isSelected = false,
     this.onTap,
     this.padding = const EdgeInsets.fromLTRB(20, 15, 20, 15),
-  }) : super(key: key);
+  });
   final dynamic data;
   final bool isSelected;
   final GestureTapCallback? onTap;

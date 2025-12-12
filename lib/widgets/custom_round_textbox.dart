@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-
 import '../theme/color.dart';
 
 class CustomRoundTextBox extends StatelessWidget {
-  const CustomRoundTextBox(
-      {Key? key,
-      this.hint = "",
-      this.prefix,
-      this.suffix,
-      this.controller,
-      this.readOnly = false,
-      this.boxShadow,
-      this.contentPadding})
-      : super(key: key);
+  const CustomRoundTextBox({
+    super.key,
+    this.hint = "",
+    this.prefix,
+    this.suffix,
+    this.controller,
+    this.readOnly = false,
+    this.boxShadow,
+    this.contentPadding,
+  });
 
   final String hint;
   final Widget? prefix;
@@ -24,8 +23,10 @@ class CustomRoundTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BoxShadow _boxShadow = boxShadow ??
+    // Use the provided boxShadow if available, otherwise create a default one
+    final BoxShadow effectiveBoxShadow = boxShadow ??
         BoxShadow(
+          // ✅ use withValues instead of deprecated withOpacity
           color: shadowColor.withValues(alpha: 0.5),
           spreadRadius: 1,
           blurRadius: 1,
@@ -40,7 +41,7 @@ class CustomRoundTextBox extends StatelessWidget {
         color: textBoxColor,
         border: Border.all(color: textBoxColor),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [_boxShadow],
+        boxShadow: [effectiveBoxShadow],
       ),
       child: TextField(
         readOnly: readOnly,

@@ -9,23 +9,37 @@ import '../widgets/icon_box.dart';
 import '../widgets/recipe_item.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({super.key});
 
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  State<ExplorePage> createState() => _ExplorePageState();
 }
 
 class _ExplorePageState extends State<ExplorePage> {
+  int selectedCategoryIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        SliverAppBar(
+        const SliverAppBar(
           backgroundColor: appBgColor,
           pinned: true,
           snap: true,
           floating: true,
-          title: _buildHeader(),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Explore",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
         SliverToBoxAdapter(
           child: _buildSearch(),
@@ -34,33 +48,18 @@ class _ExplorePageState extends State<ExplorePage> {
           child: _buildCategory(),
         ),
         SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (context, index) => RecipeItem(
-            data: recipes[index],
-            onFavoriteTap: () {
-              setState(() {
-                recipes[index]["is_favorited"] =
-                    !recipes[index]["is_favorited"];
-              });
-            },
-            onTap: () {},
-          ),
-          childCount: recipes.length,
-        ))
-      ],
-    );
-  }
-
-  Widget _buildHeader() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Explore",
-          style: TextStyle(
-            fontSize: 28,
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => RecipeItem(
+              data: recipes[index],
+              onFavoriteTap: () {
+                setState(() {
+                  recipes[index]["is_favorited"] =
+                      !recipes[index]["is_favorited"];
+                });
+              },
+              onTap: () {},
+            ),
+            childCount: recipes.length,
           ),
         ),
       ],
@@ -68,35 +67,32 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   Widget _buildSearch() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(15, 10, 15, 15),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: CustomRoundTextBox(
               hint: "Search",
               prefix: Icon(Icons.search, color: Colors.grey),
             ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10),
           IconBox(
+            radius: 50,
+            padding: 8,
             child: SvgPicture.asset(
               "assets/icons/filter1.svg",
-              color: darker,
+              colorFilter: ColorFilter.mode(darker, BlendMode.srcIn),
               width: 18,
               height: 18,
             ),
-            radius: 50,
-            padding: 8,
-          )
+          ),
         ],
       ),
     );
   }
 
-  int selectedCategoryIndex = 0;
   Widget _buildCategory() {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(15, 5, 7, 20),

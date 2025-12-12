@@ -4,13 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/color.dart';
 
 class BottomBarItem extends StatelessWidget {
-  const BottomBarItem(this.icon,
-      {Key? key,
-      this.onTap,
-      this.color = Colors.grey,
-      this.activeColor = primary,
-      this.isActive = false})
-      : super(key: key);
+  const BottomBarItem(
+    this.icon, {
+    super.key,
+    this.onTap,
+    this.color = Colors.grey,
+    this.activeColor = primary,
+    this.isActive = false,
+  });
 
   final String icon;
   final Color color;
@@ -32,8 +33,8 @@ class BottomBarItem extends StatelessWidget {
           boxShadow: [
             if (isActive)
               BoxShadow(
+                // ✅ use withValues instead of deprecated withOpacity
                 color: shadowColor.withValues(alpha: 0.3),
-
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow
@@ -42,7 +43,11 @@ class BottomBarItem extends StatelessWidget {
         ),
         child: SvgPicture.asset(
           icon,
-          color: isActive ? textColor : color,
+          // ✅ use colorFilter instead of deprecated color
+          colorFilter: ColorFilter.mode(
+            isActive ? textColor : color,
+            BlendMode.srcIn,
+          ),
           width: 25,
           height: 25,
         ),

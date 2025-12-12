@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import '../theme/color.dart';
 
 class CustomImage extends StatelessWidget {
-  const CustomImage(this.image,
-      {Key? key,
-      this.width = 100,
-      this.height = 100,
-      this.bgColor,
-      this.borderWidth = 0,
-      this.borderColor,
-      this.trBackground = false,
-      this.fit = BoxFit.cover,
-      this.isNetwork = true,
-      this.radius = 50,
-      this.borderRadius,
-      this.isShadow = true})
-      : super(key: key);
+  const CustomImage(
+    this.image, {
+    super.key,
+    this.width = 100,
+    this.height = 100,
+    this.bgColor,
+    this.borderWidth = 0,
+    this.borderColor,
+    this.trBackground = false,
+    this.fit = BoxFit.cover,
+    this.isNetwork = true,
+    this.radius = 50,
+    this.borderRadius,
+    this.isShadow = true,
+  });
 
   final String image;
   final double width;
@@ -43,6 +44,7 @@ class CustomImage extends StatelessWidget {
         boxShadow: [
           if (isShadow)
             BoxShadow(
+              // ✅ use withValues instead of deprecated withOpacity
               color: shadowColor.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 1,
@@ -71,10 +73,10 @@ class CustomImage extends StatelessWidget {
 }
 
 class BlankImageWidget extends StatefulWidget {
-  const BlankImageWidget({Key? key}) : super(key: key);
+  const BlankImageWidget({super.key});
 
   @override
-  _BlankImageWidgetState createState() => _BlankImageWidgetState();
+  State<BlankImageWidget> createState() => _BlankImageWidgetState();
 }
 
 class _BlankImageWidgetState extends State<BlankImageWidget> {

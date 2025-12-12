@@ -4,12 +4,11 @@ import 'custom_image.dart';
 
 class RecipeItem extends StatelessWidget {
   const RecipeItem(
-      {Key? key,
+      {super.key,
       required this.data,
       this.width = 300,
       this.onTap,
-      this.onFavoriteTap})
-      : super(key: key);
+      this.onFavoriteTap});
 
   final Map data;
   final double width;

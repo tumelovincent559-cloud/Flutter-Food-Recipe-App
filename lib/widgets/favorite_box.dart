@@ -4,16 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/color.dart';
 
 class FavoriteBox extends StatelessWidget {
-  const FavoriteBox(
-      {Key? key,
-      this.bgColor = Colors.white,
-      this.onTap,
-      this.isFavorited = false,
-      this.borderColor = Colors.transparent,
-      this.radius = 50,
-      this.size = 18,
-      this.padding = 8})
-      : super(key: key);
+  const FavoriteBox({
+    super.key,
+    this.bgColor = Colors.white,
+    this.onTap,
+    this.isFavorited = false,
+    this.borderColor = Colors.transparent,
+    this.radius = 50,
+    this.size = 18,
+    this.padding = 8,
+  });
 
   final Color borderColor;
   final Color? bgColor;
@@ -36,6 +36,7 @@ class FavoriteBox extends StatelessWidget {
           color: isFavorited ? red : Colors.white,
           boxShadow: [
             BoxShadow(
+              // ✅ use withValues instead of deprecated withOpacity
               color: shadowColor.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 1,
@@ -47,7 +48,11 @@ class FavoriteBox extends StatelessWidget {
           isFavorited
               ? "assets/icons/bookmark.svg"
               : "assets/icons/bookmark.svg",
-          color: isFavorited ? Colors.white : primary,
+          // ✅ use colorFilter instead of deprecated color
+          colorFilter: ColorFilter.mode(
+            isFavorited ? Colors.white : primary,
+            BlendMode.srcIn,
+          ),
           width: size,
           height: size,
         ),

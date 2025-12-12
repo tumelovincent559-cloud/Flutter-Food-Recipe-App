@@ -6,11 +6,11 @@ import '../theme/color.dart';
 
 class NotificationBox extends StatelessWidget {
   const NotificationBox({
-    Key? key,
+    super.key,
     this.onTap,
     this.size = 6,
     this.notifiedNumber = 0,
-  }) : super(key: key);
+  });
 
   final GestureTapCallback? onTap;
   final int notifiedNumber;

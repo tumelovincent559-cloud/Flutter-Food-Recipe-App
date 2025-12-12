@@ -7,14 +7,15 @@ import '../widgets/bottombar_item.dart';
 import 'home.dart';
 
 class RootApp extends StatefulWidget {
-  const RootApp({Key? key}) : super(key: key);
+  const RootApp({super.key});
 
   @override
-  _RootAppState createState() => _RootAppState();
+  RootAppState createState() => RootAppState(); // ✅ public state class
 }
 
-class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
+class RootAppState extends State<RootApp> with TickerProviderStateMixin {
   int _activeTabIndex = 1;
+
   final List _barItems = [
     {
       "icon": "assets/icons/search.svg",
@@ -35,6 +36,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     duration: const Duration(milliseconds: animatedBodyMS),
     vsync: this,
   );
+
   late final Animation<double> _animation = CurvedAnimation(
     parent: _controller,
     curve: Curves.fastOutSlowIn,
@@ -53,7 +55,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  _getAnimatedPage(page) {
+  Widget _getAnimatedPage(page) {
     return FadeTransition(child: page, opacity: _animation);
   }
 
@@ -65,8 +67,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     });
     _controller.forward();
   }
-
-//====== end set animation=====
+  //====== end set animation=====
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
         ),
         boxShadow: [
           BoxShadow(
-            color: shadowColor.withValues(alpha: 0.1),
+            color: shadowColor.withValues(alpha: 0.1), // ✅ modern API
             blurRadius: 1,
             spreadRadius: 1,
             offset: const Offset(0, 1),

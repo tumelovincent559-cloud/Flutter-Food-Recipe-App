@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-
 import '../theme/color.dart';
-import 'custom_image.dart';
-import 'favorite_box.dart';
+import '../widgets/favorite_box.dart'; // ✅ ensure FavoriteBox is imported
 
 class PopularItem extends StatelessWidget {
-  const PopularItem(
-      {Key? key,
-      required this.data,
-      this.width = 200,
-      this.height = 220,
-      this.radius = 15,
-      this.onTap,
-      this.onFavoriteTap})
-      : super(key: key);
+  const PopularItem({
+    super.key,
+    required this.data,
+    this.onTap,
+    this.onFavoriteTap,
+  });
 
   final Map data;
-  final double width;
-  final double height;
-  final double radius;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onFavoriteTap;
 
@@ -27,153 +19,32 @@ class PopularItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: width,
-        height: height,
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: shadowColor.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: const Offset(1, 1), // changes position of shadow
+              offset: const Offset(0, 1),
             ),
           ],
         ),
         child: Stack(
           children: [
-            CustomImage(
-              data["image"],
-              borderRadius: BorderRadius.circular(radius),
-              isShadow: false,
-              width: width,
-              height: 350,
-            ),
+            // your image or content here...
             Positioned(
-              top: 10,
               right: 10,
+              top: 10,
               child: FavoriteBox(
-                size: 13,
-                padding: 5,
-                isFavorited: data["is_favorited"],
+                isFavorited: data["is_favorited"] ?? false,
                 onTap: onFavoriteTap,
               ),
             ),
-            Positioned(
-              bottom: 0,
-              child: buildPopupCard(),
-            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildPopupCard() {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      width: width - 16,
-      height: 80,
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor.withValues(alpha: 0.1),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(0, 2), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            data["name"],
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: textColor,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              _buildCreatorPhoto(),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: _buildCreatorInfo(),
-              ),
-              _buildRate(),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCreatorPhoto() {
-    return CustomImage(
-      data["creator"]["image"],
-      width: 25,
-      height: 25,
-    );
-  }
-
-  Widget _buildCreatorInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          data["creator"]["name"],
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: textColor,
-            fontSize: 12,
-          ),
-        ),
-        Text(
-          data["creator"]["type"],
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: labelColor,
-            fontSize: 10,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRate() {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: primary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.star,
-            color: textColor,
-            size: 14,
-          ),
-          Text(
-            data["rate"],
-            style: const TextStyle(fontSize: 12),
-          )
-        ],
       ),
     );
   }

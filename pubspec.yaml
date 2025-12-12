@@ -1,32 +1,44 @@
 name: food_recipe
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+# Prevent publishing to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.1 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  flutter_svg: ^1.0.3
-  cached_network_image: ^3.1.0
-  badges: ^2.0.2
+  # Core Flutter packages
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10+1
+
+  # Networking & image caching (updated for Flutter 3.x)
+  cached_network_image: ^3.3.1
+
+  # Badge widget (keep v2.x for compatibility with your code)
+  badges: ^2.0.3
+
+  # Blurhash (updated to avoid DecoderCallback errors)
+  flutter_blurhash: ^0.7.0
+
+  # File package (updated for Dart 3 compatibility)
+  file: ^6.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  # Updated lint rules for Dart 3 / Flutter 3
+  flutter_lints: ^3.0.1
 
 flutter:
-
   uses-material-design: true
-  
+
   assets:
     - assets/icons/
     - assets/images/

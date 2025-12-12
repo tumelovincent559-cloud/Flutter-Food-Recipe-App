@@ -3,15 +3,14 @@ import '../theme/color.dart';
 
 class IconBox extends StatelessWidget {
   const IconBox(
-      {Key? key,
+      {super.key,
       required this.child,
       this.bgColor = Colors.white,
       this.onTap,
       this.borderColor = Colors.transparent,
       this.radius = 50,
       this.padding = 5,
-      this.isShadow = true})
-      : super(key: key);
+      this.isShadow = true});
 
   final Widget child;
   final Color borderColor;
