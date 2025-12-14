@@ -14,7 +14,6 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
-      # Ensure Java 17 is installed (matches Gradle 7.6.3 + AGP 7.4.2)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -42,7 +41,6 @@ jobs:
       - name: Run tests
         run: flutter test || echo "No tests found, skipping"
 
-      # Install Android SDK Platform 33 (needed for compileSdkVersion 33)
       - name: Install Android SDK Platform 33
         run: |
           export ANDROID_HOME=/usr/local/lib/android/sdk
