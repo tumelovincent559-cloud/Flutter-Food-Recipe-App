@@ -1,81 +1,38 @@
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
+// android/build.gradle
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Android Gradle Plugin
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        // Kotlin Gradle Plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
+        // Flutter Gradle plugin is applied in app/build.gradle
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+// Change default build directory to keep root project clean
+rootProject.buildDir = '../build'
 
-android {
-    compileSdkVersion 34
-
-    defaultConfig {
-        // Package name must match MainActivity.kt package
-        applicationId "com.sangvaleap.food_recipe"
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
-
-        multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    signingConfigs {
-        release {
-            // optional: add your keystore info if signing APK
-            // storeFile file("key.jks")
-            // storePassword "password"
-            // keyAlias "alias"
-            // keyPassword "password"
-        }
-    }
-
-    buildTypes {
-        release {
-            // enable shrinking & obfuscation if desired
-            minifyEnabled false
-            shrinkResources false
-            signingConfig signingConfigs.release
-        }
-        debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
-    buildFeatures {
-        viewBinding true
-    }
-
-    namespace "com.sangvaleap.food_recipe"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
-    implementation "androidx.core:core-ktx:1.12.0"
-    implementation "androidx.appcompat:appcompat:1.7.0"
-    implementation "com.google.android.material:material:1.12.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
-    implementation "androidx.multidex:multidex:2.0.1"
+subprojects {
+    project.evaluationDependsOn(':app')
 }
 
-// Flutter APK build tasks are added via flutter.gradle
+// Clean task
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

@@ -1,4 +1,5 @@
-// No need to import GradleException explicitly; Gradle knows it
+// app/build.gradle
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -9,26 +10,49 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-     throw new Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
-def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
-
+// Apply Android and Kotlin plugins
 apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.sangvaleap.food_recipe"
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "com.sangvaleap.food_recipe"
         minSdkVersion 21
-        targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        release {
+            // Optional: add your keystore info if signing APK
+            // storeFile file("key.jks")
+            // storePassword "password"
+            // keyAlias "alias"
+            // keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
     }
 
     compileOptions {
@@ -37,26 +61,21 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = "17"
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    buildFeatures {
+        viewBinding true
     }
-
-    buildTypes {
-        release {
-            // Replace with your own signing config when ready
-            signingConfig signingConfigs.debug
-        }
-    }
-}
-
-flutter {
-    source '../..'
 }
 
 dependencies {
-    // ✅ Hard-code Kotlin stdlib version to match your project-level plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
+    implementation "androidx.multidex:multidex:2.0.1"
 }
+
+// Flutter APK/AAB build tasks are handled via flutter.gradle
