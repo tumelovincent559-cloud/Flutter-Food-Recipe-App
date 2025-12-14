@@ -83,6 +83,7 @@ class _ExplorePageState extends State<ExplorePage> {
             padding: 8,
             child: SvgPicture.asset(
               "assets/icons/filter1.svg",
+              // ignore: prefer_const_constructors
               colorFilter: ColorFilter.mode(darker, BlendMode.srcIn),
               width: 18,
               height: 18,
