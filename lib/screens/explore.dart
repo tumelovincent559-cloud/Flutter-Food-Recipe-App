@@ -71,10 +71,10 @@ class _ExplorePageState extends State<ExplorePage> {
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
       child: Row(
         children: [
-          Expanded(
+          const Expanded(
             child: CustomRoundTextBox(
               hint: "Search",
-              prefix: const Icon(Icons.search, color: Colors.grey),
+              prefix: Icon(Icons.search, color: Colors.grey),
             ),
           ),
           const SizedBox(width: 10),
@@ -83,7 +83,7 @@ class _ExplorePageState extends State<ExplorePage> {
             padding: 8,
             child: SvgPicture.asset(
               "assets/icons/filter1.svg",
-              colorFilter: const ColorFilter.mode(darker, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(darker, BlendMode.srcIn),
               width: 18,
               height: 18,
             ),
