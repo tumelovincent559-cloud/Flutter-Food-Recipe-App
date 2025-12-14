@@ -13,7 +13,7 @@ if (flutterRoot == null) {
 
 // Apply Flutter and Android plugins
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
@@ -33,7 +33,7 @@ android {
 
     signingConfigs {
         release {
-            // Optional: add keystore info if you want signed APK
+            // Add keystore info here if you want a signed APK/AAB
             // storeFile file("key.jks")
             // storePassword "password"
             // keyAlias "alias"
@@ -43,6 +43,7 @@ android {
 
     buildTypes {
         release {
+            // Disable shrinking to avoid R8/D8 crashes in CI
             minifyEnabled false
             shrinkResources false
             signingConfig signingConfigs.release
@@ -67,11 +68,20 @@ android {
     }
 }
 
+flutter {
+    source '../..'
+}
+
 dependencies {
+    // Kotlin stdlib must match the plugin version
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+
+    // Core AndroidX libraries
     implementation "androidx.core:core-ktx:1.12.0"
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.10.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+
+    // Enable multidex for minSdk < 21
     implementation "androidx.multidex:multidex:2.0.1"
 }

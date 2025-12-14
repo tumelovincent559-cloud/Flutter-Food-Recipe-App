@@ -58,31 +58,35 @@ jobs:
           export ANDROID_HOME=/usr/local/lib/android/sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           yes | sdkmanager --licenses
-          yes | sdkmanager "platforms;android-33" "build-tools;33.0.2"
+          yes | sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
-      # 9. Build APK
+      # 9. Clean Gradle cache (helps avoid dexing errors)
+      - name: Clean Gradle cache
+        run: rm -rf ~/.gradle/caches
+
+      # 10. Build APK
       - name: Build APK
         run: flutter build apk --release --no-shrink --no-tree-shake-icons
 
-      # 10. Upload APK artifact
+      # 11. Upload APK artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      # 11. Build AAB
+      # 12. Build AAB
       - name: Build App Bundle
         run: flutter build appbundle --release --no-shrink --no-tree-shake-icons
 
-      # 12. Upload AAB artifact
+      # 13. Upload AAB artifact
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
           name: release-aab
           path: build/app/outputs/bundle/release/app-release.aab
 
-      # 13. Optional: Create GitHub Release with APK/AAB
+      # 14. Optional: Create GitHub Release with APK/AAB
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:

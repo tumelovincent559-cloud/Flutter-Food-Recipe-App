@@ -32,6 +32,7 @@ subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 
+// Ensure the app module is evaluated first
 subprojects {
     project.evaluationDependsOn(':app')
 }
