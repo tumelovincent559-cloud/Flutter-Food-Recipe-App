@@ -1,5 +1,4 @@
-
-
+import org.gradle.api.GradleException
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -25,7 +24,7 @@ plugins {
 
 android {
     namespace "com.sangvaleap.food_recipe"
-    compileSdkVersion 33   // ✅ must be >= 31 for lStar attribute
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.sangvaleap.food_recipe"
