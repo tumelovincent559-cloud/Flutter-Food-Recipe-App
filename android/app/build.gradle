@@ -1,5 +1,3 @@
-// app/build.gradle
-
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -13,7 +11,7 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-// Apply Android and Kotlin plugins
+// Apply Flutter and Android plugins
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -35,7 +33,7 @@ android {
 
     signingConfigs {
         release {
-            // Optional: add your keystore info if signing APK
+            // Optional: add keystore info if you want signed APK
             // storeFile file("key.jks")
             // storePassword "password"
             // keyAlias "alias"
@@ -77,5 +75,3 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.2.0"
     implementation "androidx.multidex:multidex:2.0.1"
 }
-
-// Flutter APK/AAB build tasks are handled via flutter.gradle

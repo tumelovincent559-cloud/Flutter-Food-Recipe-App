@@ -2,29 +2,33 @@ name: Flutter CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout the repository
       - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Setup Java 17
+      # 2️⃣ Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
 
+      # 3️⃣ Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
 
+      # 4️⃣ Cache pub dependencies
       - name: Cache pub dependencies
         uses: actions/cache@v3
         with:
@@ -32,30 +36,29 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
 
+      # 5️⃣ Cache Gradle dependencies
       - name: Cache Gradle
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper/
+          path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Install Flutter dependencies
+      # 6️⃣ Install Flutter dependencies
+      - name: Install dependencies
         run: flutter pub get
 
+      # 7️⃣ Analyze code
       - name: Run analyzer
-        run: flutter analyze || true
-        # `|| true` prevents CI fail on info-level lints like prefer_const_constructors
+        run: flutter analyze
 
-      - name: Run tests (skip if test folder missing)
+      # 8️⃣ Clean Flutter & Gradle (important to fix dexing issues)
+      - name: Clean Flutter & Gradle
         run: |
-          if [ -d "test" ]; then
-            flutter test
-          else
-            echo "No test folder, skipping tests."
-          fi
+          flutter clean
+          ./gradlew clean || true
 
+      # 9️⃣ Setup Android SDK
       - name: Install Android SDK Platform 33
         run: |
           export ANDROID_HOME=/usr/local/lib/android/sdk
@@ -63,25 +66,29 @@ jobs:
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;android-33" "build-tools;33.0.2"
 
+      # 🔟 Build APK
       - name: Build APK
-        run: flutter build apk --release --no-tree-shake-icons
+        run: flutter build apk --release --no-shrink --no-tree-shake-icons
 
+      # 1️⃣1️⃣ Upload APK artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Build App Bundle (AAB)
-        run: flutter build appbundle --release
+      # 1️⃣2️⃣ Build App Bundle (AAB)
+      - name: Build App Bundle
+        run: flutter build appbundle --release --no-shrink
 
+      # 1️⃣3️⃣ Upload AAB artifact
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-aab
           path: build/app/outputs/bundle/release/app-release.aab
 
-      # Optional: create GitHub release
+      # 1️⃣4️⃣ Optional: Create GitHub Release with APK + AAB
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
