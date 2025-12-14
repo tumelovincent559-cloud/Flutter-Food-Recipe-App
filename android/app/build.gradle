@@ -57,5 +57,6 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // ✅ Hard-code the Kotlin version instead of using an undefined variable
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 }
