@@ -42,9 +42,12 @@ jobs:
       - name: Run tests
         run: flutter test || echo "No tests found, skipping"
 
-      # Install Android SDK 33 (needed for compileSdkVersion 33)
+      # Install Android SDK Platform 33 (needed for compileSdkVersion 33)
       - name: Install Android SDK Platform 33
         run: |
+          export ANDROID_HOME=/usr/local/lib/android/sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --licenses
           yes | sdkmanager "platforms;android-33" "build-tools;33.0.2"
 
       - name: Build APK
