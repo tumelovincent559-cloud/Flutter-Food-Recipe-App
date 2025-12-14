@@ -1,5 +1,4 @@
-import org.gradle.api.GradleException
-
+// No need to import GradleException explicitly; Gradle knows it
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -47,6 +46,7 @@ android {
 
     buildTypes {
         release {
+            // Replace with your own signing config when ready
             signingConfig signingConfigs.debug
         }
     }
@@ -57,6 +57,6 @@ flutter {
 }
 
 dependencies {
-    // ✅ Hard-code the Kotlin version instead of using an undefined variable
+    // ✅ Hard-code Kotlin stdlib version to match your project-level plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 }
