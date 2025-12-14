@@ -24,8 +24,10 @@ allprojects {
     }
 }
 
+// Set root build directory
 rootProject.buildDir = '../build'
 
+// Configure subprojects build directories
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
@@ -34,6 +36,7 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// Clean task
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
